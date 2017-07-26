@@ -13,8 +13,8 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "virtserver.swaggerhub.com",
-  "basePath": "/hanmaslah/GRC-Mafazo/1",
+  "host": "petstore.swagger.io",
+  "basePath": "/v2",
   "schemes": [
     "http"
   ],
@@ -282,6 +282,156 @@
           }
         ]
       }
+    },
+    "/vendors": {
+      "get": {
+        "tags": [
+          "vendor"
+        ],
+        "summary": "Get all vendors",
+        "description": "",
+        "operationId": "getVendors",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [{
+          "in": "query",
+          "name": "name",
+          "description": "The name that needs to be fetched. Use `MAFAZO LLC` for testing.",
+          "required": false,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Vendor"
+              }
+            }
+          },
+          "400": {
+            "description": "No vendors found"
+          },
+          "404": {
+            "description": "System not found"
+          }
+        }
+      }
+    },
+    "/vendors/pastDue": {
+      "get": {
+        "tags": [
+          "vendor"
+        ],
+        "summary": "Get the last 10 past due vendors",
+        "description": "",
+        "operationId": "getPastDueVendors",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Vendor"
+              }
+            }
+          },
+          "400": {
+            "description": "No systems found"
+          },
+          "404": {
+            "description": "No vendors found"
+          }
+        }
+      }
+    },
+    "/vendors/highRisk": {
+      "get": {
+        "tags": [
+          "vendor"
+        ],
+        "summary": "Get high risk vendors",
+        "description": "",
+        "operationId": "getHighRiskVendors",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Vendor"
+              }
+            }
+          },
+          "400": {
+            "description": "No vendors found"
+          },
+          "404": {
+            "description": "No vendors found"
+          }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_systems"
+          ]
+        }]
+      }
+    },
+    "/vendors/{name}": {
+      "get": {
+        "tags": [
+          "vendor"
+        ],
+        "summary": "Get the control level status of the system given",
+        "description": "",
+        "operationId": "getVendorSummaryInfo",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [{
+          "in": "path",
+          "name": "name",
+          "description": "Name of system that needs to be fetched",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/VendorSummary"
+              }
+            }
+          },
+          "400": {
+            "description": "No control level status found"
+          },
+          "404": {
+            "description": "No systems found"
+          }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_systems"
+          ]
+        }]
+      }
     }
   },
   "securityDefinitions": {
@@ -371,6 +521,130 @@
         "description": {
           "type": "string",
           "example": "Primary LDAP server for all access control to our organization"
+        }
+      }
+    },
+    "Vendor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 12321
+        },
+        "name": {
+          "type": "string",
+          "example": "MAFAZO LLC"
+        },
+        "address": {
+          "type": "string",
+          "example": "2301 Dylan Street, Dayton, OH 45341"
+        },
+        "classification": {
+          "type": "string",
+          "example": "Critical"
+        },
+        "inherent_risk": {
+          "type": "string",
+          "example": "Medium"
+        },
+        "residual_risk": {
+          "type": "string",
+          "example": "low"
+        },
+        "type": {
+          "type": "string",
+          "example": "Information Technology"
+        },
+        "services": {
+          "type": "string",
+          "example": "Engineering"
+        },
+        "contract_expiration_date": {
+          "type": "string",
+          "example": "11/12/2019"
+        },
+        "last_assessment_date": {
+          "type": "string",
+          "example": "11/12/2019"
+        }
+      }
+    },
+    "VendorSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 12321
+        },
+        "name": {
+          "type": "string",
+          "example": "MAFAZO LLC"
+        },
+        "address": {
+          "type": "string",
+          "example": "2301 Dylan Street, Dayton, OH 45341"
+        },
+        "classification": {
+          "type": "string",
+          "example": "Critical"
+        },
+        "inherent_risk": {
+          "type": "string",
+          "example": "Medium"
+        },
+        "residual_risk": {
+          "type": "string",
+          "example": "low"
+        },
+        "type": {
+          "type": "string",
+          "example": "Information Technology"
+        },
+        "services": {
+          "type": "string",
+          "example": "Engineering"
+        },
+        "contract_expiration_date": {
+          "type": "string",
+          "example": "11/12/2019"
+        },
+        "last_assessment_date": {
+          "type": "string",
+          "example": "11/12/2019"
+        },
+        "controls": {
+          "$ref": "#/definitions/Controls"
+        },
+        "response": {
+          "type": "string",
+          "example": "Welcome"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "payslip.xls"
+          }
+        }
+      }
+    },
+    "Controls": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1414
+        },
+        "name": {
+          "type": "string",
+          "example": "Apollo"
+        },
+        "description": {
+          "type": "string",
+          "example": "This is the control for the moon landing"
         }
       }
     }
