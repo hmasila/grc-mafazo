@@ -1,0 +1,17 @@
+{
+  "name": "grc",
+  "private": true,
+  "dependencies": {
+    "express": "^4.14.0",
+    "webpack": "^1.13.1",
+    "request": "^2.73.0"
+  },
+  "description": "This README would normally document whatever steps are necessary to get the application up and running.",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
