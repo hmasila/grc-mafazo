@@ -1,102 +1,378 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is the official documentation of the GRC API. You can find \nout more about GRC at \n[http://yourwebsite.com](http://yourwebsite.com)\n",
+    "description": "This is the official GRC Documentation.",
     "version": "1.0.0",
-    "title": "GRC API Documentation",
-    "termsOfService": "http://yourwebsite/terms/",
+    "title": "GRC Mafazo API Documentation",
+    "termsOfService": "http://mafazo.com/terms/",
     "contact": {
-      "email": "max@mafazo.com"
+      "name": "max@mafazo.com"
     },
     "license": {
-      "name": "MIT Licence",
-      "url": "https://opensource.org/licenses/MIT"
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
+  "host": "virtserver.swaggerhub.com",
+  "basePath": "/hanmaslah/GRC-Mafazo/1",
+  "schemes": [
+    "http"
+  ],
   "paths": {
     "/systems": {
       "get": {
         "tags": [
-          "systems"
+          "system"
         ],
-        "summary": "Returns a list of all the systems.",
-        "description": "Returns a map of status codes to quantities",
+        "summary": "Get systems by name",
+        "description": "",
         "operationId": "getSystems",
         "produces": [
-          "application/json"
+          "application/json",
+          "application/xml"
         ],
-        "parameters": [],
+        "parameters": [{
+            "in": "query",
+            "name": "name",
+            "description": "The name that needs to be fetched. Use `Organizational NIST RMF System` for testing.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "framework",
+            "description": "The framework that needs to be fetched. Use `NIST RMF Rev 4` for testing.",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "integer",
-                "format": "int32"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/System"
               }
             }
+          },
+          "400": {
+            "description": "No systems found"
+          },
+          "404": {
+            "description": "System not found"
           }
         },
-        "security": [
-          {
-            "api_key": []
-          }
-        ]
+        "security": [{
+          "grc_auth": [
+            "read_systems"
+          ]
+        }]
       }
     },
-    "/store/inventory": {
+    "/systems/recentlyModified": {
       "get": {
         "tags": [
-          "store"
+          "system"
         ],
-        "summary": "Returns pet inventories by status",
-        "description": "Returns a map of status codes to quantities",
-        "operationId": "getInventory",
+        "summary": "Get the last 10 most recent updated systems",
+        "description": "",
+        "operationId": "getRecentModifiedSystems",
         "produces": [
-          "application/json"
+          "application/json",
+          "application/xml"
         ],
         "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "integer",
-                "format": "int32"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/System"
               }
             }
+          },
+          "400": {
+            "description": "No systems found"
+          },
+          "404": {
+            "description": "No systems found"
           }
         },
-        "security": [
-          {
+        "security": [{
+          "grc_auth": [
+            "read_systems"
+          ]
+        }]
+      }
+    },
+    "/systems/{name}/controlLevelStatus": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Get the control level status of the system given",
+        "description": "",
+        "operationId": "getControlLevelStatus",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [{
+          "in": "path",
+          "name": "name",
+          "description": "Name of system that needs to be fetched",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/System"
+              }
+            }
+          },
+          "400": {
+            "description": "No control level status found"
+          },
+          "404": {
+            "description": "No systems found"
+          }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_systems"
+          ]
+        }]
+      }
+    },
+    "/systems/{name}/deficiencyRegister": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Get the control level status of the system given",
+        "description": "",
+        "operationId": "getDeficiencyRegister",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [{
+          "in": "path",
+          "name": "name",
+          "description": "Name of system that needs to be fetched",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/System"
+              }
+            }
+          },
+          "400": {
+            "description": "No deficiency register found"
+          },
+          "404": {
+            "description": "No systems found"
+          }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_systems"
+          ]
+        }]
+      }
+    },
+    "/systems/{name}/relatedAssests": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Get the related assets of the system given",
+        "description": "",
+        "operationId": "getRelatedAssets",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [{
+          "in": "path",
+          "name": "name",
+          "description": "Name of system that needs to be fetched",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RelatedAssets"
+              }
+            }
+          },
+          "400": {
+            "description": "No related assets found"
+          },
+          "404": {
+            "description": "No systems found"
+          }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_systems"
+          ]
+        }]
+      }
+    },
+    "/systems/{name}/relatedPolicies": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Get the related policies of the system given",
+        "description": "",
+        "operationId": "getRelatedPolicies",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [{
+          "in": "path",
+          "name": "name",
+          "description": "Name of system that needs to be fetched",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RelatedPolicies"
+              }
+            }
+          },
+          "400": {
+            "description": "No related policies found"
+          },
+          "404": {
+            "description": "No systems found"
+          }
+        },
+        "security": [{
             "api_key": []
+          },
+          {
+            "grc_auth": [
+              "read_systems"
+            ]
           }
         ]
       }
     }
   },
   "securityDefinitions": {
-    "petstore_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    },
     "api_key": {
       "type": "apiKey",
       "name": "api_key",
       "in": "header"
+    },
+    "grc_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/api/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "read_systems": "read your systems"
+      }
     }
   },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
-  },
-  "host": "virtserver.swaggerhub.com",
-  "basePath": "/hanmaslah/GRC-API/1.0.0"
+  "definitions": {
+    "System": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 829288
+        },
+        "name": {
+          "type": "string",
+          "example": "Organizational NIST RMF System"
+        },
+        "framework": {
+          "type": "string",
+          "example": "NIST RMF Rev 4"
+        },
+        "acronym": {
+          "type": "string",
+          "example": "O-NRMF"
+        },
+        "completion_status": {
+          "type": "string",
+          "example": "20%"
+        },
+        "date_updated": {
+          "type": "string",
+          "example": "12/03/17"
+        },
+        "date_created": {
+          "type": "string",
+          "example": "12/03/17"
+        }
+      }
+    },
+    "RelatedPolicies": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 3021
+        },
+        "name": {
+          "type": "string",
+          "example": "Access Control Policy"
+        },
+        "type": {
+          "type": "string",
+          "example": "Information Security"
+        },
+        "description": {
+          "type": "string",
+          "example": "Access control is concerned with determining the allowed activities of legitimate users, mediating every attempt by a user to access a resource in the system. This policy defines required technical, physical and administrative controls to meet the intent of our organizational security strategy"
+        }
+      }
+    },
+    "RelatedAssets": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 2032
+        },
+        "name": {
+          "type": "string",
+          "example": "Windows Server 2014"
+        },
+        "description": {
+          "type": "string",
+          "example": "Primary LDAP server for all access control to our organization"
+        }
+      }
+    }
+  }
 }
