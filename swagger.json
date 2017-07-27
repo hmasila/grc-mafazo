@@ -413,10 +413,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/VendorSummary"
-              }
+              "$ref": "#/definitions/VendorSummary"
             }
           },
           "400": {
@@ -432,6 +429,70 @@
           ]
         }]
       }
+    },
+    "/documents": {
+      "get": {
+        "tags": [
+          "document"
+        ],
+        "summary": "Get all documents",
+        "description": "",
+        "operationId": "getDocument",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Document"
+              }
+            }
+          },
+          "400": {
+            "description": "No docuents found"
+          },
+          "404": {
+            "description": "Documents not found"
+          }
+        }
+      }
+    },
+    "/documents/attached": {
+      "get": {
+        "tags": [
+          "document"
+        ],
+        "summary": "Get all attached documents",
+        "description": "",
+        "operationId": "getAttachedDocument",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AttachedDocument"
+              }
+            }
+          },
+          "400": {
+            "description": "No docuents found"
+          },
+          "404": {
+            "description": "Documents not found"
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -442,7 +503,7 @@
     },
     "grc_auth": {
       "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/api/oauth/dialog",
+      "authorizationUrl": "http://mafazo.com/api/oauth/dialog",
       "flow": "implicit",
       "scopes": {
         "read_systems": "read your systems"
@@ -645,6 +706,82 @@
         "description": {
           "type": "string",
           "example": "This is the control for the moon landing"
+        }
+      }
+    },
+    "Document": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 3031
+        },
+        "name": {
+          "type": "string",
+          "example": "Information Security Policy"
+        },
+        "description": {
+          "type": "string",
+          "example": "Access control is concerned with determining the allowed activities of legitimate users, mediating every attempt by a user to access a resource in the system. This policy defines required technical, physical and administrative controls to meet the intent of our organizational security strategy"
+        },
+        "version": {
+          "type": "string",
+          "example": 2.1
+        },
+        "type": {
+          "type": "string",
+          "example": "PDF"
+        },
+        "date_uploaded": {
+          "type": "string",
+          "example": "11/12/2016"
+        },
+        "size": {
+          "type": "string",
+          "example": "10 MB"
+        },
+        "attached": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "AttachedDocument": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 3031
+        },
+        "name": {
+          "type": "string",
+          "example": "Information Security Policy"
+        },
+        "description": {
+          "type": "string",
+          "example": "Access control is concerned with determining the allowed activities of legitimate users, mediating every attempt by a user to access a resource in the system. This policy defines required technical, physical and administrative controls to meet the intent of our organizational security strategy"
+        },
+        "version": {
+          "type": "string",
+          "example": 2.1
+        },
+        "type": {
+          "type": "string",
+          "example": "PDF"
+        },
+        "date_uploaded": {
+          "type": "string",
+          "example": "11/12/2016"
+        },
+        "size": {
+          "type": "string",
+          "example": "10 MB"
+        },
+        "attached_to": {
+          "type": "string",
+          "example": "Organizational NIST RMF Rev 4 System"
         }
       }
     }
