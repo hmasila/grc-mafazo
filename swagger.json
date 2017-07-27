@@ -405,7 +405,7 @@
         "parameters": [{
           "in": "path",
           "name": "name",
-          "description": "Name of system that needs to be fetched",
+          "description": "Name of vendor that needs to be fetched",
           "required": true,
           "type": "string"
         }],
@@ -454,7 +454,7 @@
             }
           },
           "400": {
-            "description": "No docuents found"
+            "description": "No documents found"
           },
           "404": {
             "description": "Documents not found"
@@ -486,10 +486,106 @@
             }
           },
           "400": {
-            "description": "No docuents found"
+            "description": "No documents found"
           },
           "404": {
             "description": "Documents not found"
+          }
+        }
+      }
+    },
+    "/audits": {
+      "get": {
+        "tags": [
+          "audit"
+        ],
+        "summary": "Get all audits",
+        "description": "",
+        "operationId": "getAudit",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Audit"
+              }
+            }
+          },
+          "400": {
+            "description": "No audits found"
+          },
+          "404": {
+            "description": "Audits not found"
+          }
+        }
+      }
+    },
+    "/audits/controls": {
+      "get": {
+        "tags": [
+          "audit"
+        ],
+        "summary": "Get audit with controls",
+        "description": "",
+        "operationId": "getAuditControls",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AuditControl"
+              }
+            }
+          },
+          "400": {
+            "description": "No audits found"
+          },
+          "404": {
+            "description": "Audits not found"
+          }
+        }
+      }
+    },
+    "/audits/deficiencies": {
+      "get": {
+        "tags": [
+          "audit"
+        ],
+        "summary": "Get audit with deficiencies",
+        "description": "",
+        "operationId": "getAuditDeficiencies",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AuditDeficiencies"
+              }
+            }
+          },
+          "400": {
+            "description": "No audits found"
+          },
+          "404": {
+            "description": "Audits not found"
           }
         }
       }
@@ -764,7 +860,7 @@
           "example": "Access control is concerned with determining the allowed activities of legitimate users, mediating every attempt by a user to access a resource in the system. This policy defines required technical, physical and administrative controls to meet the intent of our organizational security strategy"
         },
         "version": {
-          "type": "string",
+          "type": "number",
           "example": 2.1
         },
         "type": {
@@ -782,6 +878,126 @@
         "attached_to": {
           "type": "string",
           "example": "Organizational NIST RMF Rev 4 System"
+        }
+      }
+    },
+    "Audit": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 3911
+        },
+        "name": {
+          "type": "string",
+          "example": "Internal NIST RMF Audit"
+        },
+        "description": {
+          "type": "string",
+          "example": "This security audit is a manual or systematic measurable technical assessment of a system or application. Manual assessments include interviewing staff, performing security vulnerability scans, reviewing application and operating system access controls, and analyzing physical access to the systems."
+        },
+        "framework": {
+          "type": "string",
+          "example": "Custom Risk Based Audit"
+        },
+        "lead": {
+          "type": "string",
+          "example": "Neetu Sharma"
+        },
+        "status": {
+          "type": "string",
+          "example": "In Progress"
+        },
+        "start_date": {
+          "type": "string",
+          "example": "11/12/2016"
+        },
+        "finish_date": {
+          "type": "string",
+          "example": "TBD"
+        },
+        "risk_rating": {
+          "type": "string",
+          "example": "Moderate"
+        }
+      }
+    },
+    "AuditControl": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 3911
+        },
+        "name": {
+          "type": "string",
+          "example": "Internal NIST RMF Audit"
+        },
+        "description": {
+          "type": "string",
+          "example": "This security audit is a manual or systematic measurable technical assessment of a system or application. Manual assessments include interviewing staff, performing security vulnerability scans, reviewing application and operating system access controls, and analyzing physical access to the systems."
+        },
+        "framework": {
+          "type": "string",
+          "example": "Custom Risk Based Audit"
+        },
+        "lead": {
+          "type": "string",
+          "example": "Neetu Sharma"
+        },
+        "status": {
+          "type": "string",
+          "example": "In Progress"
+        },
+        "start_date": {
+          "type": "string",
+          "example": "11/12/2016"
+        },
+        "finish_date": {
+          "type": "string",
+          "example": "TBD"
+        },
+        "risk_rating": {
+          "type": "string",
+          "example": "Moderate"
+        },
+        "controls": {
+          "$ref": "#/definitions/Controls"
+        },
+        "response": {
+          "type": "string",
+          "example": "This is a response"
+        }
+      }
+    },
+    "AuditDeficiencies": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 3911
+        },
+        "name": {
+          "type": "string",
+          "example": "Internal NIST RMF Audit"
+        },
+        "status": {
+          "type": "string",
+          "example": "In Progress"
+        },
+        "auditor_notes": {
+          "type": "string",
+          "example": "11/12/2016"
+        },
+        "action_statement": {
+          "type": "string",
+          "example": "Moderate"
+        },
+        "controls": {
+          "$ref": "#/definitions/Controls"
         }
       }
     }
