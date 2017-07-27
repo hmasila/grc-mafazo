@@ -24,7 +24,7 @@
         "tags": [
           "system"
         ],
-        "summary": "Get systems by name",
+        "summary": "Get all systems by query given",
         "description": "",
         "operationId": "getSystems",
         "produces": [
@@ -155,7 +155,7 @@
         "tags": [
           "system"
         ],
-        "summary": "Get the control level status of the system given",
+        "summary": "Get the deficiency register of the system given",
         "description": "",
         "operationId": "getDeficiencyRegister",
         "produces": [
@@ -288,7 +288,7 @@
         "tags": [
           "vendor"
         ],
-        "summary": "Get all vendors",
+        "summary": "Get all vendors by query given",
         "description": "",
         "operationId": "getVendors",
         "produces": [
@@ -318,7 +318,12 @@
           "404": {
             "description": "System not found"
           }
-        }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_vendors"
+          ]
+        }]
       }
     },
     "/vendors/pastDue": {
@@ -326,7 +331,7 @@
         "tags": [
           "vendor"
         ],
-        "summary": "Get the last 10 past due vendors",
+        "summary": "Get the last past due vendors",
         "description": "",
         "operationId": "getPastDueVendors",
         "produces": [
@@ -350,7 +355,12 @@
           "404": {
             "description": "No vendors found"
           }
-        }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_vendors"
+          ]
+        }]
       }
     },
     "/vendors/highRisk": {
@@ -385,7 +395,7 @@
         },
         "security": [{
           "grc_auth": [
-            "read_systems"
+            "read_vendors"
           ]
         }]
       }
@@ -425,7 +435,7 @@
         },
         "security": [{
           "grc_auth": [
-            "read_systems"
+            "read_vendors"
           ]
         }]
       }
@@ -459,7 +469,12 @@
           "404": {
             "description": "Documents not found"
           }
-        }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_policies"
+          ]
+        }]
       }
     },
     "/documents/attached": {
@@ -491,7 +506,12 @@
           "404": {
             "description": "Documents not found"
           }
-        }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_policies"
+          ]
+        }]
       }
     },
     "/audits": {
@@ -506,7 +526,21 @@
           "application/json",
           "application/xml"
         ],
-        "parameters": [],
+        "parameters": [{
+            "in": "query",
+            "name": "status",
+            "description": "Status of audit that needs to be fetched. Use `In Progress` for testing",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "risk_rating",
+            "description": "Risk rating of audit that needs to be fetched. Use `Moderate` for testing.",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -523,7 +557,12 @@
           "404": {
             "description": "Audits not found"
           }
-        }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_audits"
+          ]
+        }]
       }
     },
     "/audits/controls": {
@@ -555,7 +594,12 @@
           "404": {
             "description": "Audits not found"
           }
-        }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_audits"
+          ]
+        }]
       }
     },
     "/audits/deficiencies": {
@@ -587,7 +631,12 @@
           "404": {
             "description": "Audits not found"
           }
-        }
+        },
+        "security": [{
+          "grc_auth": [
+            "read_audits"
+          ]
+        }]
       }
     }
   },
@@ -595,14 +644,19 @@
     "api_key": {
       "type": "apiKey",
       "name": "api_key",
-      "in": "header"
+      "in": "header",
+      "description": "To use your API key, you need only call `\\MAFAZO\\MAFAZO::setApiKey()` with your key. The Java library will then automatically send this key in each request."
     },
     "grc_auth": {
       "type": "oauth2",
       "authorizationUrl": "http://mafazo.com/api/oauth/dialog",
       "flow": "implicit",
+      "description": "The MAFAZO API supports the OAuth 2.0 three-legged authentication code flow. Please register your application in the settings area so that you can follow along with authenticating and making requests on the API in this guide",
       "scopes": {
-        "read_systems": "read your systems"
+        "read_systems": "read systems",
+        "read_policies": "read Policies",
+        "read_vendors": "read vendors",
+        "read_audits": "read audits"
       }
     }
   },
